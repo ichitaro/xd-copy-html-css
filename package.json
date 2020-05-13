@@ -1,8 +1,5 @@
 {
-  "name": "xd-copy-html-css",
-  "version": "0.0.1",
-  "main": "index.js",
-  "license": "MIT",
+  "private": true,
   "scripts": {
     "dev": "nodemon -w src -e js -w webpack.config.js --exec yarn dev:reload",
     "dev:reload": "yarn build && yarn xdpm:install && yarn xd:reload",
