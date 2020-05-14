@@ -21,8 +21,9 @@ function renderResizableComponent(vnode) {
   ]
     .filter(x => x)
     .join('\n')
-  const script = className
-    ? `<!--
+  const script =
+    className && resizeCode
+      ? `<!--
 A script to check how a component looks when it's resized.
 You can remove this script if you wish.
 -->
@@ -37,7 +38,7 @@ interact(document.querySelector('.${className}'))
   })
   .on('resizemove', function(event) { ${resizeCode} })
 </script>`
-    : null
+      : null
   return [html, script].filter(x => x).join('\n'.repeat(2))
 }
 

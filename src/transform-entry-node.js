@@ -59,10 +59,10 @@ async function transformAnyNode(node, { warnings }) {
 
 function setDefaultSize(vnode, { width, height }) {
   const style = {}
-  if (!vnode._contentWidth) {
+  if (vnode._contentWidth !== 'auto') {
     style.width = encodeLength(width)
   }
-  if (!vnode._contentHeight) {
+  if (vnode._contentHeight !== 'auto') {
     style.height = encodeLength(height)
   }
   cssRules.add(vnode, {
