@@ -573,11 +573,12 @@ async function transformStack(node, context) {
   // It also determines whether the size of the container should be fixed.
   ;(() => {
     let hasMaxColumn = false
+    let willSpreadH = false
     for (let i = 0, len = stackItems.length; i < len; i++) {
       const vnode = stackItems[i]
-      const { _position: pos } = vnode
+      const { _position: pos, _alignCross: alignCross } = vnode
       const [crossMarginStart, crossMarginEnd] = calcMarginByAxis(
-        vnode._alignCross,
+        alignCross,
         pos[cross.start],
         pos[cross.end],
         padding[cross.start],
@@ -604,6 +605,11 @@ async function transformStack(node, context) {
               padding[cross.start] +
               padding[cross.end]
           ))
+      willSpreadH =
+        willSpreadH ||
+        (isVertical &&
+          alignCross === 'stretch' &&
+          (vnode._willSpreadH || vnode._node.areaBox))
     }
 
     if (alignMain === 'both' && stackItems.length >= 2) {
@@ -627,7 +633,9 @@ async function transformStack(node, context) {
 
     stack[main.contentSize] =
       !hasRelSizeMain && alignMain === 'normal' ? 'auto' : null
-    stack[cross.contentSize] = !hasRelSizeCross && hasMaxColumn ? 'auto' : null
+    stack[cross.contentSize] =
+      !hasRelSizeCross && hasMaxColumn && !willSpreadH ? 'auto' : null
+    stack._willSpreadH = willSpreadH
   })()
 
   // Determine the style of each node.

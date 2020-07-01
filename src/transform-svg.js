@@ -78,7 +78,7 @@ async function toVNode(node) {
     cssRules.add(vnode, {
       selector: ':scope',
       style: {
-        'background-image': `url("${dataURI}");`,
+        'background-image': `url("${dataURI}")`,
         'background-size': '100% 100%',
         'background-repeat': 'no-repeat'
       }

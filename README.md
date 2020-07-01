@@ -16,8 +16,8 @@ XD 上でオブジェクトを 1 つ選択し、メニューから `プラグイ
 
 下記のショートカットも利用可能です。
 
-- `Cmd+Shift+H` (Mac)
-- `Ctrl+Shift+H` (Win)
+- `Ctrl+Option+H` (Mac)
+- `Ctrl+Alt+H` (Win)
 
 ## サンプル
 

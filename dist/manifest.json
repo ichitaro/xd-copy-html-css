@@ -23,10 +23,10 @@
       "type": "menu",
       "commandId": "exportHTML",
       "shortcut": {
-        "mac": "Cmd+Shift+H",
-        "win": "Ctrl+Shift+H"
+        "mac": "Ctrl+Option+H",
+        "win": "Ctrl+Alt+H"
       }
     }
   ],
-  "version": "0.0.3"
+  "version": "0.0.4"
 }

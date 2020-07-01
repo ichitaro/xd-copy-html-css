@@ -9,7 +9,7 @@ const script = `
 	  activate
 	  tell application "System Events"
 		  key code 15 using {command down, shift down}
-		  key code 4 using {command down, shift down}
+		  key code 4 using {control down, option down}
 	  end tell
   end tell
 `
