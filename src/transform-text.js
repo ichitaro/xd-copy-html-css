@@ -4,7 +4,12 @@ const commands = require('commands')
 const { createElement, createTextElement } = require('./vnode')
 const cssRules = require('./css-rules')
 const { opacityStyle, shadowStyle } = require('./node-style')
-const { encodeLength, encodeRatio, encodeColor } = require('./encode-style')
+const {
+  encodeLength,
+  encodeRatio,
+  encodeColor,
+  roundFloat
+} = require('./encode-style')
 const { getPosition } = require('./node-position')
 const options = require('./options')
 
@@ -306,9 +311,11 @@ function transformText(node) {
 
   // Text node specific styles
   if (node.lineSpacing > 0) {
-    commonStyle['line-height'] = useRelativeLength
-      ? encodeRatio(node.lineSpacing, commonFontSize)
-      : encodeLength(node.lineSpacing)
+    const r = roundFloat(node.lineSpacing / commonFontSize, 5)
+    commonStyle['line-height'] =
+      useRelativeLength && r * commonFontSize === roundFloat(node.lineSpacing)
+        ? '' + r
+        : encodeLength(node.lineSpacing)
   }
   if (node.textAlign !== 'left') {
     const textAlign = {
