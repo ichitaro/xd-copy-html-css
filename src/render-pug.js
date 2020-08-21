@@ -1,26 +1,10 @@
-const html2jade = require('html2jade')
 const beautify = require('js-beautify')
 const indentString = require('indent-string')
+const htmlPugConverter = require('./html-pug-converter')
 const { render: renderVnode } = require('./vnode')
 const cssRules = require('./css-rules')
 
-function toPug(html) {
-  return new Promise((resolve, reject) => {
-    const options = {
-      bodyless: true,
-      donotencode: true
-    }
-    html2jade.convertHtml(html, options, (err, jade) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(jade)
-      }
-    })
-  })
-}
-
-async function renderComponent(vnode) {
+function renderComponent(vnode) {
   const css = cssRules.resolve(vnode)
   const prettyCSS = css
     ? beautify.css(css, {
@@ -32,13 +16,13 @@ async function renderComponent(vnode) {
   const style = prettyCSS ? `style.\n${indentString(prettyCSS, 2)}` : ''
 
   const html = renderVnode(vnode)
-  const pug = await toPug(html)
+  const pug = htmlPugConverter(html, { fragment: true })
 
   return [pug, style].filter(x => x).join('\n'.repeat(2))
 }
 
-async function renderResizableComponent(vnode) {
-  const html = await renderComponent(vnode)
+function renderResizableComponent(vnode) {
+  const html = renderComponent(vnode)
   const className = (vnode.getAttr('class') || '').split(/\s+/)[0]
   const widthResizable = !vnode._contentWidth
   const heightResizable = !vnode._contentHeight

@@ -30,7 +30,7 @@ async function main(render, selection) {
     }
   }
 
-  const output = await render(vnode)
+  const output = render(vnode)
 
   const { which } = await dialogs.createDialog({
     title: 'HTML Output',
