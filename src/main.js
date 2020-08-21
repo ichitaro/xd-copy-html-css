@@ -1,13 +1,13 @@
 const clipboard = require('clipboard')
-const beautify = require('js-beautify').html
 const preprocess = require('./preprocess')
 const transformEntryNode = require('./transform-entry-node')
-const render = require('./render')
+const renderHTML = require('./render-html')
+const renderPug = require('./render-pug')
 const options = require('./options')
 const escapeHTML = require('./escape-html')
 const dialogs = require('./lib/dialogs')
 
-async function exportHTML(selection) {
+async function main(render, selection) {
   if (selection.items.length === 0) {
     dialogs.error('Please select one node')
     return
@@ -30,16 +30,12 @@ async function exportHTML(selection) {
     }
   }
 
-  const html = render(vnode)
-  const prettyHTML = beautify(html, {
-    indent_size: 2,
-    space_around_selector_separator: true
-  })
+  const output = await render(vnode)
 
   const { which } = await dialogs.createDialog({
     title: 'HTML Output',
     template: () =>
-      `<textarea style='width: 100%;'>${escapeHTML(prettyHTML)}</textarea>`,
+      `<textarea style='width: 100%;'>${escapeHTML(output)}</textarea>`,
     buttons: [
       { label: 'Cancel', type: 'reset', variant: 'primary' },
       { label: 'Copy', type: 'submit', variant: 'cta' }
@@ -47,12 +43,13 @@ async function exportHTML(selection) {
   })
 
   if (which === 1) {
-    clipboard.copyText(prettyHTML)
+    clipboard.copyText(output)
   }
 }
 
 module.exports = {
   commands: {
-    exportHTML
+    exportHTML: main.bind(null, renderHTML),
+    exportPug: main.bind(null, renderPug)
   }
 }

@@ -26,7 +26,16 @@
         "mac": "Ctrl+Option+H",
         "win": "Ctrl+Alt+H"
       }
+    },
+    {
+      "label": "Copy Pug/CSS",
+      "type": "menu",
+      "commandId": "exportPug",
+      "shortcut": {
+        "mac": "Ctrl+Option+P",
+        "win": "Ctrl+Alt+P"
+      }
     }
   ],
-  "version": "0.0.6"
+  "version": "0.1.0"
 }

@@ -1,3 +1,4 @@
+const beautify = require('js-beautify')
 const { render: renderVnode } = require('./vnode')
 const cssRules = require('./css-rules')
 
@@ -42,4 +43,13 @@ interact(document.querySelector('.${className}'))
   return [html, script].filter(x => x).join('\n'.repeat(2))
 }
 
-module.exports = renderResizableComponent
+function render(vnode) {
+  const html = renderResizableComponent(vnode)
+  const prettyHTML = beautify.html(html, {
+    indent_size: 2,
+    space_around_selector_separator: true
+  })
+  return prettyHTML
+}
+
+module.exports = render
